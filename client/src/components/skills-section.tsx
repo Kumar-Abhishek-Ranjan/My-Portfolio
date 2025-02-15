@@ -1,23 +1,15 @@
 import { motion } from "framer-motion";
 import { fadeIn } from "@/lib/motion";
 import { Progress } from "@/components/ui/progress";
-
-const skills = [
-  { name: "Cloud (Azure / AWS / GCP)", level: 90 },
-  { name: "Team Leadership & Mentoring", level: 85 },
-  { name: "SQL & PL/SQL", level: 95 },
-  { name: "C, C++, C#", level: 85 },
-  { name: "Delphi", level: 80 },
-  { name: "Insurance Domain Knowledge", level: 90 }
-];
-
-const certifications = [
-  "GCP Cloud Practitioner - Google (March 2023)",
-  "Azure Data Engineer - Microsoft",
-  "Azure Data Lake, Azure Data Factory, Azure Data Bricks"
-];
+import { useQuery } from "@tanstack/react-query";
+import { Skill } from "@shared/schema";
+import { Loader2 } from "lucide-react";
 
 export function SkillsSection() {
+  const { data: skills, isLoading } = useQuery<Skill[]>({
+    queryKey: ["/api/skills"],
+  });
+
   return (
     <section id="skills" className="py-24">
       <motion.div
@@ -28,49 +20,39 @@ export function SkillsSection() {
         className="space-y-12"
       >
         <div className="text-center">
-          <h2 className="text-3xl font-bold">Skills & Certifications</h2>
+          <h2 className="text-3xl font-bold">Skills & Expertise</h2>
           <p className="text-muted-foreground mt-4">
-            Technical expertise and professional certifications
+            Technical expertise and professional proficiency
           </p>
         </div>
 
         <div className="max-w-3xl mx-auto space-y-8">
-          <div className="space-y-6">
-            {skills.map((skill, index) => (
-              <motion.div
-                key={index}
-                variants={fadeIn('left', 0.3 * (index + 1))}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                className="space-y-2"
-              >
-                <div className="flex justify-between">
-                  <span className="font-medium">{skill.name}</span>
-                  <span className="text-muted-foreground">{skill.level}%</span>
-                </div>
-                <Progress value={skill.level} className="h-2" />
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mt-8 space-y-4">
-            <h3 className="text-xl font-semibold text-center mb-4">Certifications</h3>
-            <div className="grid gap-4">
-              {certifications.map((cert, index) => (
+          {isLoading ? (
+            <div className="flex justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : skills?.length === 0 ? (
+            <p className="text-center text-muted-foreground">No skills added yet.</p>
+          ) : (
+            <div className="space-y-6">
+              {skills?.map((skill, index) => (
                 <motion.div
-                  key={index}
-                  variants={fadeIn('right', 0.3 * (index + 1))}
+                  key={skill.id}
+                  variants={fadeIn('left', 0.3 * (index + 1))}
                   initial="hidden"
                   whileInView="show"
                   viewport={{ once: true }}
-                  className="p-4 bg-primary/5 rounded-lg text-center"
+                  className="space-y-2"
                 >
-                  {cert}
+                  <div className="flex justify-between">
+                    <span className="font-medium">{skill.name}</span>
+                    <span className="text-muted-foreground">{skill.level}%</span>
+                  </div>
+                  <Progress value={skill.level} className="h-2" />
                 </motion.div>
               ))}
             </div>
-          </div>
+          )}
         </div>
       </motion.div>
     </section>
