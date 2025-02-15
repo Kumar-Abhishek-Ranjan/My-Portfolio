@@ -24,8 +24,8 @@ The application will be available at `http://localhost:5000`
 ### Default Admin Credentials
 
 ```
-Username: admin
-Password: admin
+Username: a***n
+Password: *****
 ```
 
 ## Usage Examples
