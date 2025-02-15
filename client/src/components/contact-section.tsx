@@ -6,6 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Phone, MapPin, Send, Lock, Unlock } from "lucide-react";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 import {
   Dialog,
   DialogContent,
@@ -14,16 +17,45 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
+
+interface ContactForm {
+  name: string;
+  email: string;
+  message: string;
+}
 
 export function ContactSection() {
   const [isVerified, setIsVerified] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const { toast } = useToast();
+  const [formData, setFormData] = useState<ContactForm>({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const contactMutation = useMutation({
+    mutationFn: async (data: ContactForm) => {
+      const res = await apiRequest("POST", "/api/contact", data);
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Message Sent",
+        description: "Thank you for your message. I'll get back to you soon!",
+      });
+      setFormData({ name: "", email: "", message: "" });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Failed to send message",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
 
   const handleVerification = () => {
-    // Simple verification for demo purposes
-    // In a real app, this would be a more secure process
     if (verificationCode === "karanjan123570") {
       setIsVerified(true);
       toast({
@@ -37,6 +69,18 @@ export function ContactSection() {
         variant: "destructive",
       });
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    contactMutation.mutate(formData);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -79,7 +123,6 @@ export function ContactSection() {
                     <DialogTitle>Verify Your Identity</DialogTitle>
                     <DialogDescription>
                       Enter verification code to view contact information.
-                      (Use code: karanjan123570 for demo)
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4 pt-4">
@@ -130,13 +173,37 @@ export function ContactSection() {
             </CardContent>
           </Card>
 
-          <form className="space-y-6">
-            <Input placeholder="Your Name" />
-            <Input type="email" placeholder="Your Email" />
-            <Textarea placeholder="Your Message" rows={4} />
-            <Button type="submit" className="w-full">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <Input
+              name="name"
+              placeholder="Your Name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+            />
+            <Input
+              name="email"
+              type="email"
+              placeholder="Your Email"
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+            />
+            <Textarea
+              name="message"
+              placeholder="Your Message"
+              rows={4}
+              value={formData.message}
+              onChange={handleInputChange}
+              required
+            />
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={contactMutation.isPending}
+            >
               <Send className="mr-2 h-4 w-4" />
-              Send Message
+              {contactMutation.isPending ? "Sending..." : "Send Message"}
             </Button>
           </form>
         </div>
