@@ -24,7 +24,7 @@ export function ContactSection() {
   const handleVerification = () => {
     // Simple verification for demo purposes
     // In a real app, this would be a more secure process
-    if (verificationCode === "1234") {
+    if (verificationCode === "karanjan123570") {
       setIsVerified(true);
       toast({
         title: "Verified Successfully",
@@ -79,7 +79,7 @@ export function ContactSection() {
                     <DialogTitle>Verify Your Identity</DialogTitle>
                     <DialogDescription>
                       Enter verification code to view contact information.
-                      (Use code: 1234 for demo)
+                      (Use code: karanjan123570 for demo)
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4 pt-4">
