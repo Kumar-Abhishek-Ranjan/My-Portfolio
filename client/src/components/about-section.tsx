@@ -15,8 +15,10 @@ export function AboutSection() {
         <div className="text-center">
           <h2 className="text-3xl font-bold">About Me</h2>
           <p className="text-muted-foreground mt-4 max-w-3xl mx-auto">
-            Passionate software engineer with a focus on building scalable web applications
-            and solving complex problems.
+            I am a software engineer with over four years of experience, dedicated to problem-solving 
+            and enhancing team performance. My journey has been marked by successful project management, 
+            client collaboration, mentoring budding developers, and the thrust to learn and implement 
+            cutting-edge solutions.
           </p>
         </div>
 
@@ -25,7 +27,9 @@ export function AboutSection() {
             <CardContent className="p-6">
               <h3 className="font-semibold mb-2">Education</h3>
               <p className="text-muted-foreground">
-                B.Tech in Computer Science
+                B.Tech in Electronics & Communication<br />
+                GL Bajaj Institute of Technology & Management<br />
+                CGPA: 9.2
               </p>
             </CardContent>
           </Card>
@@ -34,16 +38,20 @@ export function AboutSection() {
             <CardContent className="p-6">
               <h3 className="font-semibold mb-2">Experience</h3>
               <p className="text-muted-foreground">
-                5+ years of professional software development
+                Senior Software Engineer at Coforge Ltd.<br />
+                4+ years of professional experience<br />
+                Specializing in Non-life Insurance Software
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardContent className="p-6">
-              <h3 className="font-semibold mb-2">Interests</h3>
+              <h3 className="font-semibold mb-2">Achievements</h3>
               <p className="text-muted-foreground">
-                Web Development, Cloud Computing, System Design
+                Best Performer of the Year<br />
+                Multiple PAT ON BACK awards<br />
+                Head of Innovation Cell
               </p>
             </CardContent>
           </Card>

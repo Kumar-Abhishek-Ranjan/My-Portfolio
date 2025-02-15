@@ -13,16 +13,16 @@ export function HeroSection() {
           animate="show"
           className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-[#00B894] text-transparent bg-clip-text"
         >
-          Hello, I'm K A Ranjan
+          KUMAR ABHISHEK RANJAN
         </motion.h1>
-        
+
         <motion.p 
           variants={fadeIn('up', 0.4)}
           initial="hidden"
           animate="show"
           className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto"
         >
-          Software Engineer & Full Stack Developer
+          Senior Software Engineer at Coforge Ltd.
         </motion.p>
 
         <motion.div

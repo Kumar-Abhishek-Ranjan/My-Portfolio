@@ -28,15 +28,19 @@ export function ContactSection() {
             <CardContent className="p-6 space-y-6">
               <div className="flex items-center gap-4">
                 <Mail className="h-5 w-5 text-primary" />
-                <span>email@example.com</span>
+                <a href="mailto:abhishek123570@gmail.com" className="hover:text-primary transition-colors">
+                  abhishek123570@gmail.com
+                </a>
               </div>
               <div className="flex items-center gap-4">
                 <Phone className="h-5 w-5 text-primary" />
-                <span>+1 234 567 890</span>
+                <a href="tel:+919631480320" className="hover:text-primary transition-colors">
+                  +91 96314 80320
+                </a>
               </div>
               <div className="flex items-center gap-4">
                 <MapPin className="h-5 w-5 text-primary" />
-                <span>City, Country</span>
+                <span>Gurgaon, India</span>
               </div>
             </CardContent>
           </Card>
