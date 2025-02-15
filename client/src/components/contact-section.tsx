@@ -4,9 +4,41 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Lock, Unlock } from "lucide-react";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 
 export function ContactSection() {
+  const [isVerified, setIsVerified] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+  const { toast } = useToast();
+
+  const handleVerification = () => {
+    // Simple verification for demo purposes
+    // In a real app, this would be a more secure process
+    if (verificationCode === "1234") {
+      setIsVerified(true);
+      toast({
+        title: "Verified Successfully",
+        description: "You can now view the contact information.",
+      });
+    } else {
+      toast({
+        title: "Verification Failed",
+        description: "Please enter the correct verification code.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <section id="contact" className="py-24">
       <motion.div
@@ -26,18 +58,71 @@ export function ContactSection() {
         <div className="grid md:grid-cols-2 gap-12">
           <Card>
             <CardContent className="p-6 space-y-6">
-              <div className="flex items-center gap-4">
-                <Mail className="h-5 w-5 text-primary" />
-                <a href="mailto:abhishek123570@gmail.com" className="hover:text-primary transition-colors">
-                  abhishek123570@gmail.com
-                </a>
-              </div>
-              <div className="flex items-center gap-4">
-                <Phone className="h-5 w-5 text-primary" />
-                <a href="tel:+919631480320" className="hover:text-primary transition-colors">
-                  +91 96314 80320
-                </a>
-              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="w-full mb-4">
+                    {isVerified ? (
+                      <>
+                        <Unlock className="mr-2 h-4 w-4" />
+                        Contact Information Visible
+                      </>
+                    ) : (
+                      <>
+                        <Lock className="mr-2 h-4 w-4" />
+                        Verify to View Contact Info
+                      </>
+                    )}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Verify Your Identity</DialogTitle>
+                    <DialogDescription>
+                      Enter verification code to view contact information.
+                      (Use code: 1234 for demo)
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 pt-4">
+                    <Input
+                      type="text"
+                      placeholder="Enter verification code"
+                      value={verificationCode}
+                      onChange={(e) => setVerificationCode(e.target.value)}
+                    />
+                    <Button onClick={handleVerification} className="w-full">
+                      Verify
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+
+              {isVerified ? (
+                <>
+                  <div className="flex items-center gap-4">
+                    <Mail className="h-5 w-5 text-primary" />
+                    <a href="mailto:abhishek123570@gmail.com" className="hover:text-primary transition-colors">
+                      abhishek123570@gmail.com
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Phone className="h-5 w-5 text-primary" />
+                    <a href="tel:+919631480320" className="hover:text-primary transition-colors">
+                      +91 96314 80320
+                    </a>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center gap-4 text-muted-foreground">
+                    <Mail className="h-5 w-5" />
+                    <span>Email hidden - Verify to view</span>
+                  </div>
+                  <div className="flex items-center gap-4 text-muted-foreground">
+                    <Phone className="h-5 w-5" />
+                    <span>Phone hidden - Verify to view</span>
+                  </div>
+                </>
+              )}
               <div className="flex items-center gap-4">
                 <MapPin className="h-5 w-5 text-primary" />
                 <span>Gurgaon, India</span>
