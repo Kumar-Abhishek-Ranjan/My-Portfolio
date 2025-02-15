@@ -1,8 +1,13 @@
 import { motion } from "framer-motion";
 import { fadeIn } from "@/lib/motion";
 import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export function AboutSection() {
+  const [showExperience, setShowExperience] = useState(false);
+
   return (
     <section id="about" className="py-24">
       <motion.div
@@ -34,7 +39,7 @@ export function AboutSection() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setShowExperience(true)}>
             <CardContent className="p-6">
               <h3 className="font-semibold mb-2">Experience</h3>
               <p className="text-muted-foreground">
@@ -57,6 +62,40 @@ export function AboutSection() {
           </Card>
         </div>
       </motion.div>
+
+      <Dialog open={showExperience} onOpenChange={setShowExperience}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>Professional Experience</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 text-muted-foreground">
+            <div>
+              <h3 className="font-semibold text-foreground">Coforge Ltd.</h3>
+              <p>Senior Software Engineer (GET / SE / SSE)</p>
+              <p>Gurugram(IN)</p>
+              <p>Nov2020 - Present</p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-foreground">Project: SUBSCRIBE (Non-life Insurance Software)</h4>
+              <p>Clients: London, Bermuda, Romania, etc.</p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-foreground">Roles and Responsibilities:</h4>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Collaborated directly with clients to define and understand solution requirements for applicable development variables, resulting in a 25% increase in client satisfaction.</li>
+                <li>Analyzed proposed technical solutions based on customer requirements, budget, and product goals, leading to a 15% reduction in project costs.</li>
+                <li>Prepared detailed reports on updates to project specifications, progress, identified connections, and team activities, enhancing project transparency by 30%.</li>
+                <li>Developed logic, debugged codes, and created scripts to fix issues raised by clients, reducing client-reported matters by 15%.</li>
+                <li>Prioritized tickets, assigned tasks, tracked tickets, and directed reports to the manager, improving task resolution time by 25%.</li>
+                <li>Trained and mentored 10+ freshers, junior developers, and engineers, teaching skills in SQL and Lloyds of London Insurance, contributing to a 30% improvement in overall team performance.</li>
+                <li>Discussed project (BAU) progress with customers, collected feedback at different stages, and directly addressed concerns, resulting in a 22% improvement in project feedback ratings.</li>
+              </ul>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
